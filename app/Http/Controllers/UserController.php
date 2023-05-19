@@ -28,7 +28,6 @@ class UserController extends Controller
             'Status' => 'Ok',
             'NrUsers' => $users,
             'NewProp' => true,
-            'NewProp2' => true
         ], 200);
     }
 
