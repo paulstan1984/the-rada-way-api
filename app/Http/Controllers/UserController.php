@@ -27,7 +27,8 @@ class UserController extends Controller
         return response()->json([
             'Status' => 'Ok',
             'NrUsers' => $users,
-            'NewProp' => true
+            'NewProp' => true,
+            'NewProp2' => true
         ], 200);
     }
 
