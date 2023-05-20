@@ -17,3 +17,18 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('health-check', [UserController::class, 'health_check']);
+
+Route::middleware(['access_token:'])->group(function () {
+    Route::apiResource('users', UserController::class);
+    Route::get('users-search/{page?}/{keyword?}', [UserController::class, 'search']);
+
+    Route::get('profile', [UserController::class, 'profile']);
+});
+
+Route::withoutMiddleware([ValidateAccessToken::class])->group(function () {
+
+    Route::post('login', [UserController::class, 'login']);
+    Route::post('logout', [UserController::class, 'logout']);
+    Route::post('forgot-password', [UserController::class, 'getForgotPasswordToken']);
+    Route::post('reset-password', [UserController::class, 'resetPassword']);
+});
