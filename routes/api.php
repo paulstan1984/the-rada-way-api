@@ -23,12 +23,13 @@ Route::middleware(['access_token:'])->group(function () {
     Route::get('users-search/{page?}/{keyword?}', [UserController::class, 'search']);
 
     Route::get('profile', [UserController::class, 'profile']);
+    Route::get('new-password', [UserController::class, 'setNewPasword']);
+    Route::post('reset-password', [UserController::class, 'resetPassword']);
+
 });
 
 Route::withoutMiddleware([ValidateAccessToken::class])->group(function () {
     Route::post('register', [UserController::class, 'register']);
     Route::post('login', [UserController::class, 'login']);
     Route::post('logout', [UserController::class, 'logout']);
-    Route::post('forgot-password', [UserController::class, 'getForgotPasswordToken']);
-    Route::post('reset-password', [UserController::class, 'resetPassword']);
 });

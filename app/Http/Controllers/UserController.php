@@ -100,36 +100,31 @@ class UserController extends Controller
         return response()->json($request->user, 200);
     }
 
-    public function getForgotPasswordToken(Request $request)
+    public function setNewPasword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:100'
-        ]);
+        $user = $request->user;
 
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 404);
+        $initial_password = $this->repository->generateRandomPassword();
+        
+        $item = array(
+            'password' => User::HashPass($initial_password),
+            'access_token' => ''
+        );
+
+        $this->repository->update($user, $item);
+
+        if ($user == null) {
+            return response()->json(['error' => 'not found'], 400);
         }
 
-        $item = $validator->validated();
-        $user = $this->repository->getUserByEmail($item['email']);
+        Mail::to($user->email)->send(new ResetPassword($initial_password, $user));
 
-        if (empty($user)) {
-            return response()->json(['email' => ['not found']], 400);
-        }
-
-        $user->remember_token = md5(date('Y-m-d H:i:s'));
-        $this->repository->update($user, ['remember_token' => $user->remember_token]);
-
-        //to do: send the email notification
-        Mail::to($user->email)->send(new ResetPassword(env('ADMINAPP_URL') . '/reset-password/' . $user->remember_token));
-
-        return response()->json(['remember_token' => $user->remember_token], 200);
+        return response()->json(['updated' => true], 200);
     }
 
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remember_token' => 'required',
             'password' => 'required|max:10',
         ]);
 
@@ -138,14 +133,11 @@ class UserController extends Controller
         }
 
         $item = $validator->validated();
-        $user = $this->repository->getUserByRememberToken($item['remember_token']);
 
-        if (empty($user)) {
-            return response()->json(['error' => 'not found'], 400);
-        }
+        $user = $request->user;
 
         $pass = User::HashPass($item['password']);
-        $this->repository->update($user, ['password' => $pass, 'remember_token' => '']);
+        $this->repository->update($user, ['password' => $pass]);
 
         return response()->json(['update_password' => true], 200);
     }
