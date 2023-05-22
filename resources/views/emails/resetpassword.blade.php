@@ -2,8 +2,8 @@
 # Resetare parolă
 
 Bună {{$user->name}},<br/>
-Parola ta a fost resetată. Noua parolă este: {{$initialPassword}}.<br/>
-Te rugăm să setezi o nouă parolă imediat după logare.
+Codul pentru resetarea parolei este: {{$resetPasswordCode}}.<br/>
+Te rugăm să setezi o nouă parolă în aplicație.
 
 O zi frumoasă,<br>
 Echipa {{ config('app.name') }}

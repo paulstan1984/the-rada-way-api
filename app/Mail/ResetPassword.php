@@ -14,17 +14,17 @@ class ResetPassword extends Mailable
 {
     use Queueable, SerializesModels;
 
-    var $initialPassword = '';
+    var $resetPasswordCode = '';
     var User $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(string $initialPassword, User $user)
+    public function __construct(string $resetPasswordCode, User $user)
     {
         //
-        $this->initialPassword = $initialPassword;
+        $this->resetPasswordCode = $resetPasswordCode;
         $this->user = $user;
     }
 

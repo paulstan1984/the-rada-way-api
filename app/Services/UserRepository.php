@@ -46,6 +46,13 @@ class UserRepository
         return User::where('email', $email)->first();
     }
 
+    public function getUserByEmailAndRememberToken($item) {
+        return User
+        ::where('email', $item['email'])
+        ->andWhere('remember_token', $item['remember_token'])
+        ->first();
+    }
+
     public function create($item)
     {
         return User::create($item);
@@ -71,9 +78,9 @@ class UserRepository
         $item->delete();
     }
 
-    public function generateRandomPassword()
+    public function generateRememberToken()
     {
-        $length = 10;
+        $length = 6;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';

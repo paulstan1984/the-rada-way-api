@@ -43,8 +43,7 @@ class UserController extends Controller
 
         $item = $validator->validated();
 
-        $initial_password = $this->repository->generateRandomPassword();
-        $item['password'] = User::HashPass($initial_password);
+        $item['password'] = '';
         $item['access_token'] = '';
 
         $user = $this->repository->create($item);
@@ -53,7 +52,15 @@ class UserController extends Controller
             return response()->json(['error' => 'not found'], 400);
         }
 
-        Mail::to($user->email)->send(new ResetPassword($initial_password, $user));
+        $remember_token = $this->repository->generateRememberToken();
+
+        $item = array(
+            'remember_token' => $remember_token,
+        );
+
+        $this->repository->update($user, $item);
+
+        Mail::to($user->email)->send(new ResetPassword($remember_token, $user));
 
         return response()->json(['created' => true], 200);
     }
@@ -81,16 +88,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'token' => 'required|max:100',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 404);
-        }
-
-        $item = $validator->validated();
-        $token = $this->repository->logout($item['token']);
+        $token = $this->repository->logout($request->user->access_token);
 
         return response()->json($token, 200);
     }
@@ -100,16 +98,49 @@ class UserController extends Controller
         return response()->json($request->user, 200);
     }
 
-    //aici - mecanism de autentificare resetare parola
-    public function setNewPasword(Request $request)
+    public function changePassword(Request $request)
+    {
+        if (empty($request->user)) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|max:100',
+                'password' => 'required|max:10',
+                'remember_token' => 'required|min:6|max:6'
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'password' => 'required|max:10',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $validator->validated();
+        if (!empty($request->user)) {
+            $user = $request->user;
+        } else {
+            $user = $this->repository->getUserByEmailAndRememberToken($item);
+        }
+
+        if ($user == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $pass = User::HashPass($item['password']);
+        $this->repository->update($user, ['password' => $pass, 'remember_token' => '']);
+
+        return response()->json(['update_password' => true], 200);
+    }
+
+    public function sendResetPasswordToken(Request $request)
     {
         $user = $request->user;
 
-        $initial_password = $this->repository->generateRandomPassword();
-        
+        $remember_token = $this->repository->generateRememberToken();
+
         $item = array(
-            'password' => User::HashPass($initial_password),
-            'access_token' => ''
+            'remember_token' => $remember_token,
         );
 
         $this->repository->update($user, $item);
@@ -118,29 +149,9 @@ class UserController extends Controller
             return response()->json(['error' => 'not found'], 400);
         }
 
-        Mail::to($user->email)->send(new ResetPassword($initial_password, $user));
+        Mail::to($user->email)->send(new ResetPassword($remember_token, $user));
 
         return response()->json(['updated' => true], 200);
-    }
-
-    public function resetPassword(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|max:10',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 404);
-        }
-
-        $item = $validator->validated();
-
-        $user = $request->user;
-
-        $pass = User::HashPass($item['password']);
-        $this->repository->update($user, ['password' => $pass]);
-
-        return response()->json(['update_password' => true], 200);
     }
 
     /**
