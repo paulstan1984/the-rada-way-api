@@ -30,6 +30,34 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:100|unique:users',
+            'name' => 'required|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $validator->validated();
+
+        $initial_password = $this->repository->generateRandomPassword();
+        $item['password'] = User::HashPass($initial_password);
+        $item['access_token'] = '';
+
+        $user = $this->repository->create($item);
+
+        if ($user == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        Mail::to($user->email)->send(new ResetPassword($initial_password, $user));
+
+        return response()->json(['created' => true], 200);
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
