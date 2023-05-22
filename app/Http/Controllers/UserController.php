@@ -100,6 +100,7 @@ class UserController extends Controller
         return response()->json($request->user, 200);
     }
 
+    //aici - mecanism de autentificare resetare parola
     public function setNewPasword(Request $request)
     {
         $user = $request->user;
