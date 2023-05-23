@@ -42,23 +42,17 @@ class UserController extends Controller
         }
 
         $item = $validator->validated();
+        $remember_token = $this->repository->generateRememberToken();
 
         $item['password'] = '';
         $item['access_token'] = '';
+        $item['remember_token'] = $remember_token;
 
         $user = $this->repository->create($item);
 
         if ($user == null) {
             return response()->json(['error' => 'not found'], 400);
         }
-
-        $remember_token = $this->repository->generateRememberToken();
-
-        $item = array(
-            'remember_token' => $remember_token,
-        );
-
-        $this->repository->update($user, $item);
 
         Mail::to($user->email)->send(new ResetPassword($remember_token, $user));
 
@@ -135,23 +129,26 @@ class UserController extends Controller
 
     public function sendResetPasswordToken(Request $request)
     {
-        $user = $request->user;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:100',
+        ]);
 
-        $remember_token = $this->repository->generateRememberToken();
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
 
-        $item = array(
-            'remember_token' => $remember_token,
-        );
-
-        $this->repository->update($user, $item);
-
+        $item = $validator->validated();
+        $user = $this->repository->getUserByEmail($item['email']);
         if ($user == null) {
             return response()->json(['error' => 'not found'], 400);
         }
 
+        $remember_token = $this->repository->generateRememberToken();
+        $this->repository->update($user, ['remember_token' => $remember_token]);
+
         Mail::to($user->email)->send(new ResetPassword($remember_token, $user));
 
-        return response()->json(['updated' => true], 200);
+        return response()->json(['mail_sent' => true], 200);
     }
 
     /**

@@ -23,11 +23,14 @@ Route::middleware(['access_token:'])->group(function () {
     Route::get('users-search/{page?}/{keyword?}', [UserController::class, 'search']);
 
     Route::get('profile', [UserController::class, 'profile']);
-    Route::post('logout', [UserController::class, 'logout']);
+    Route::get('logout', [UserController::class, 'logout']);
+});
+
+Route::middleware(['optional_access_token:'])->group(function () {
+    Route::post('change-password', [UserController::class, 'changePassword']);
 });
 
 Route::withoutMiddleware([ValidateAccessToken::class])->group(function () {
-    Route::post('change-password', [UserController::class, 'changePassword']);
     Route::post('register', [UserController::class, 'register']);
     Route::post('login', [UserController::class, 'login']);
     Route::post('send-reset-pasword-token', [UserController::class, 'sendResetPasswordToken']);
