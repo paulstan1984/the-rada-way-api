@@ -24,6 +24,7 @@ Route::middleware(['access_token:'])->group(function () {
 
     Route::apiResource('runs', RunsController::class);
     Route::get('runs-search/{page?}/{user_id?}', [RunsController::class, 'search']);
+    Route::post('runs/sync', [RunsController::class, 'sync']);
 
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);

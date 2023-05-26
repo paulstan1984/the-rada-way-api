@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PhisicalResource;
 use Illuminate\Http\Request;
 use App\Services\RunsRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Models\User;
 use App\Models\Run;
 
 class RunsController extends Controller
@@ -39,6 +37,25 @@ class RunsController extends Controller
         $pagination = $this->paginationService->applyPagination($query, $page);
 
         return $pagination;
+    }
+
+    public function sync(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            '*.operation' => ['required', Rule::in(['insert', 'delete'])],
+            '*.id' => ['exclude_if:*.operation,insert', 'required', Rule::exists('runs', 'id')],
+            '*.startTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
+            '*.endTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
+            '*.distance' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0'],
+            '*.avgSpeed' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0'],
+            '*.locations' => ['exclude_if:*.operation,delete', 'array'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 400);
+        }
+
+        return response()->json('ok', 200);
     }
 
     /**
