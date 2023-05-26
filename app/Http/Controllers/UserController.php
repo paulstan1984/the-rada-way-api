@@ -193,6 +193,18 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user) : JsonResponse
     {
+        //aici update user profile
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $validator->validated();
+        $user = $this->repository->update($item);
+
         return response()->json('Ok', 200);
     }
 
