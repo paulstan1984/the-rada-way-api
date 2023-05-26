@@ -9,6 +9,7 @@ use App\Services\UserRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPassword;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -154,11 +155,11 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index() : JsonResponse
     {
-        //
+        return response()->json('Ok', 200);
     }
 
     /**
@@ -167,9 +168,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
-        //
+        return response()->json('Ok', 200);
     }
 
     /**
@@ -178,9 +179,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user) : JsonResponse
     {
-        //
+        return response()->json('Ok', 200);
     }
 
     /**
@@ -190,9 +191,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user) : JsonResponse
     {
-        //
+        return response()->json('Ok', 200);
     }
 
     /**
@@ -201,8 +202,8 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user) : JsonResponse
     {
-        //
+        return response()->json('Ok', 200);
     }
 }

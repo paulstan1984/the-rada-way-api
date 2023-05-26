@@ -8,6 +8,7 @@ use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Run;
+use Illuminate\Http\JsonResponse;
 
 class RunsController extends Controller
 {
@@ -23,20 +24,20 @@ class RunsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request) : JsonResponse
     {
         return $this->search($request, 1, $request->user->id);
     }
 
-    public function search(Request $request, $page = 1, $user_id)
+    public function search(Request $request, $page = 1, $user_id) : JsonResponse
     {
         $query = $this->repository->search($user_id);
         $query = $query->orderBy('startTime', 'desc');
         $pagination = $this->paginationService->applyPagination($query, $page);
 
-        return $pagination;
+        return response()->json($pagination, 200);
     }
 
     public function sync(Request $request)
@@ -76,10 +77,9 @@ class RunsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, int $Id)
+    public function show(Request $request, int $Id) : JsonResponse
     {
         $item = Run::find($Id);
 
@@ -93,10 +93,9 @@ class RunsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, int $Id)
+    public function destroy(Request $request, int $Id) : JsonResponse
     {
         $item = Run::find($Id);
 
