@@ -12,12 +12,12 @@ class RunsRepository
         return Run::create($item);
     }
 
-    public function search(string $keyword = null)
+    public function search(string $user_id = null)
     {
         $query = Run::query();
 
-        if (!empty($keyword)) {
-            $query = $query->where('name', 'like', '%' . $keyword . '%');
+        if (!empty($user_id)) {
+            $query = $query->where('user_id', $user_id);
         }
         return $query;
     }

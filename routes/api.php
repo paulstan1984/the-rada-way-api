@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\RunsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +21,9 @@ Route::get('health-check', [UserController::class, 'health_check']);
 Route::middleware(['access_token:'])->group(function () {
     Route::apiResource('users', UserController::class);
     Route::get('users-search/{page?}/{keyword?}', [UserController::class, 'search']);
+
+    Route::apiResource('runs', RunsController::class);
+    Route::get('runs-search/{page?}/{user_id?}', [RunsController::class, 'search']);
 
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);

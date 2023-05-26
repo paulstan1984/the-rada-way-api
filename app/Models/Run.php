@@ -9,6 +9,6 @@ class Run extends Model
 {
     use HasFactory;
 
-    var $fillable = ['name', 'description', 'weekly_timetable', 'schedule_type', 'schedule_units', 'open', 'service_provider_id'];
-    var $hidden = ['created_at', 'updated_at', 'service_provider'];
+    var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed', 'locations'];
+    var $hidden = ['created_at', 'updated_at'];
 }
