@@ -40,7 +40,8 @@ class RunsController extends Controller
     }
 
     public function sync(Request $request)
-    {
+    {       
+        $user_id = $request->user->id;
         $validator = Validator::make($request->all(), [
             '*.operation' => ['required', Rule::in(['insert', 'delete'])],
             '*.id' => ['exclude_if:*.operation,insert', 'required', Rule::exists('runs', 'id')],
@@ -55,7 +56,21 @@ class RunsController extends Controller
             return response()->json($validator->messages(), 400);
         }
 
-        return response()->json('ok', 200);
+        $operations = $validator->validated();
+        foreach ($operations as $operation) {
+            switch ($operation['operation']) {
+                case 'delete':
+                    $item = Run::find($operation['id']);
+                    $this->repository->delete($item);
+                    break;
+                case 'insert':
+                    $operation['user_id'] = $user_id;
+                    $this->repository->create($operation);
+                    break;
+            }
+        }
+
+        return response()->json($operations, 200);
     }
 
     /**
