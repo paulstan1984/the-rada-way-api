@@ -156,6 +156,7 @@ class UserController extends Controller
     public function search(Request $request, $page = 1, $keyword = null) : JsonResponse
     {
         $query = $this->repository->search($keyword);
+        $query = $query->where('id', '<>', $request->user->id);
         $query = $query->orderBy('name', 'asc');
         $pagination = $this->paginationService->applyPagination($query, $page);
 
