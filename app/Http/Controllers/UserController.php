@@ -152,6 +152,16 @@ class UserController extends Controller
         return response()->json(['mail_sent' => true], 200);
     }
 
+    
+    public function search(Request $request, $page = 1, $keyword = null) : JsonResponse
+    {
+        $query = $this->repository->search($keyword);
+        $query = $query->orderBy('name', 'asc');
+        $pagination = $this->paginationService->applyPagination($query, $page);
+
+        return response()->json($pagination, 200);
+    }
+
     /**
      * Display a listing of the resource.
      *
