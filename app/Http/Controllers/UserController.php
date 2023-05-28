@@ -10,6 +10,7 @@ use App\Services\PaginationService;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPassword;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -208,6 +209,11 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:100',
+            'sex' => ['required', Rule::in(['M', 'F', 'N'])],
+            'dob' => ['required', 'date'],
+            'weight' => ['required', 'integer'],
+            'height' => ['required', 'integer'],
+            'runGoal' => ['required', 'integer'],
         ]);
 
         if ($validator->fails()) {

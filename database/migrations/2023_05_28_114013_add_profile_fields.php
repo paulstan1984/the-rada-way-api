@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('sex', 50);
+            $table->string('sex', 50)->default('N');
             $table->date('dob')->nullable();
-            $table->unsignedInteger('height');
-            $table->unsignedInteger('weight');
-            $table->unsignedInteger('runGoal');
+            $table->unsignedInteger('height')->default(170);
+            $table->unsignedInteger('weight')->default(75);
+            $table->unsignedInteger('runGoal')->default(100);
         });
     }
 
