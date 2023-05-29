@@ -76,7 +76,7 @@ class UserController extends Controller
         $token = $this->repository->login($item);
 
         if (empty($token)) {
-            return response()->json(['password' => ['incorrect login']], 404);
+            return response()->json(['password' => ['Parolă greșită.']], 404);
         }
 
         return response()->json($token, 200);
@@ -84,9 +84,9 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        $token = $this->repository->logout($request->user->access_token);
+        $response = $this->repository->logout($request->user->access_token);
 
-        return response()->json($token, 200);
+        return response()->json(['response' => $response], 200);
     }
 
     public function profile(Request $request)
