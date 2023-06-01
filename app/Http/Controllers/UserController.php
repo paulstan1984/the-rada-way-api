@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\UserRepository;
+use App\Services\RunsRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPassword;
@@ -15,11 +16,13 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     var $repository;
+    var $runsRepository;
     var $paginationService;
 
-    public function __construct(UserRepository $repository, PaginationService $paginationService)
+    public function __construct(UserRepository $repository, RunsRepository $runsRepository, PaginationService $paginationService)
     {
         $this->repository = $repository;
+        $this->runsRepository = $runsRepository;
         $this->paginationService = $paginationService;
     }
 
@@ -91,7 +94,10 @@ class UserController extends Controller
 
     public function profile(Request $request)
     {
-        return response()->json($request->user, 200);
+        $user = $request->user;
+        $user->runs = $this->runsRepository->search($user->id)->get();
+
+        return response()->json($user, 200);
     }
 
     public function changePassword(Request $request)
