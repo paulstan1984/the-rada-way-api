@@ -23,6 +23,11 @@ return new class extends Migration
             $table->unsignedBigInteger('run_id');
             $table->foreign('run_id')->references('id')->on('runs');
         });
+
+        Schema::table('runs', function (Blueprint $table) {
+            //
+            $table->dropColumn('locations');
+        });
     }
 
     /**
@@ -33,5 +38,10 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('locations');
+
+        Schema::table('runs', function (Blueprint $table) {
+            //
+            $table->text('locations');
+        });
     }
 };

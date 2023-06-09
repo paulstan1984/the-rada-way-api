@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RunsController;
+use App\Http\Controllers\LocationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ Route::middleware(['access_token:'])->group(function () {
     Route::apiResource('runs', RunsController::class);
     Route::get('runs-search/{page?}/{user_id?}', [RunsController::class, 'search']);
     Route::post('runs/sync', [RunsController::class, 'sync']);
+
+    Route::get('locations-search/{page}/{run_id}', [LocationsController::class, 'search']);
+    Route::post('locations/sync/{run_id?}', [LocationsController::class, 'sync']);
 
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
