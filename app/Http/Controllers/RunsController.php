@@ -49,8 +49,7 @@ class RunsController extends Controller
             '*.startTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
             '*.endTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
             '*.distance' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0'],
-            '*.avgSpeed' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0'],
-            '*.locations' => ['exclude_if:*.operation,delete', 'array'],
+            '*.avgSpeed' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0']
         ]);
 
         if ($validator->fails()) {
