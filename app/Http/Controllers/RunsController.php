@@ -48,8 +48,6 @@ class RunsController extends Controller
             '*.id' => ['exclude_if:*.operation,insert', 'required', Rule::exists('runs', 'id')],
             '*.startTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
             '*.endTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
-            '*.distance' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0'],
-            '*.avgSpeed' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,2', 'min:0']
         ]);
 
         if ($validator->fails()) {
@@ -65,6 +63,8 @@ class RunsController extends Controller
                     break;
                 case 'insert':
                     $operation['user_id'] = $user_id;
+                    $operation['distance'] = 0;
+                    $operation['avgSpeed'] = 0;
                     $this->repository->create($operation);
                     break;
             }

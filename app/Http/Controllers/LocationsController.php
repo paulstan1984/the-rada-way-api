@@ -64,6 +64,8 @@ class LocationsController extends Controller
             }
         }
 
+        Run::update_stats($operation['id']);
+
         return response()->json($operations, 200);
     }
 }
