@@ -13,13 +13,4 @@ class Run extends Model
     var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed', 'locations'];
     var $hidden = ['created_at', 'updated_at'];
 
-    #region accesors
-    protected function locations(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => json_decode($value),
-            set: fn ($value) => json_encode($value)
-        );
-    }
-    #endregion
 }
