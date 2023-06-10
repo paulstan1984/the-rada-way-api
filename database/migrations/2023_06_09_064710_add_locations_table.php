@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->decimal('lat', 47);
-            $table->decimal('lng', 47);
-            $table->decimal('speed', 47);
+            $table->string('lat', 50);
+            $table->string('lng', 50);
+            $table->decimal('speed', 32, 30);
             $table->integer('distance');
             
             $table->unsignedBigInteger('run_id');
