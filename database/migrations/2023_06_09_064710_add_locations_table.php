@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('distance');
             
             $table->unsignedBigInteger('run_id');
-            $table->foreign('run_id')->references('id')->on('runs');
+            $table->foreign('run_id')->references('id')->on('runs')->onDelete('cascade');
         });
 
         Schema::table('runs', function (Blueprint $table) {
