@@ -64,7 +64,7 @@ class LocationsController extends Controller
             }
         }
 
-        Run::update_stats($operation['id']);
+        $operations = $this->repository->update_run_stats($run_id);
 
         return response()->json($operations, 200);
     }

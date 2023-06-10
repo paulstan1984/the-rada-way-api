@@ -13,18 +13,21 @@ class Run extends Model
     var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed', 'locations'];
     var $hidden = ['created_at', 'updated_at'];
 
-    public static function update_stats($id)
+    public static function update_run_stats($id)
     {
-        $query =  Location::where('run_id', $id)
-            ->where('speed', '>', 0);
+        $run = Run::find($id);
+        if (empty($run)) {
+            return;
+        }
 
-        $distance = $query->sum('distance') / 1000;
+        $query =  Location::where('run_id', $id)->where('speed', '>', 0);
 
-        $speedSum = $query->sum('avgSpeed');
+        $distance = round(floatval($query->sum('distance')) / 1000, 2);
 
+        $speedSum = $query->sum('speed');
         $count = $query->count();
         $avgSpeed = ($speedSum / max(1, $count)) * 3.6; // convert from m/s to km/h
 
-        Run::update($id, ['distance' => round($distance, 2), 'avgSpeed' => round($avgSpeed, 2)]);
+        $run->update(['distance' => round($distance, 2), 'avgSpeed' => round($avgSpeed, 2)]);
     }
 }

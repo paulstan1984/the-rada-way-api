@@ -27,6 +27,7 @@ return new class extends Migration
         Schema::table('runs', function (Blueprint $table) {
             //
             $table->dropColumn('locations');
+            $table->decimal('distance', 18, 2)->change();
         });
     }
 
