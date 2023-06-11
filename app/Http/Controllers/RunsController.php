@@ -65,7 +65,8 @@ class RunsController extends Controller
                     $operation['user_id'] = $user_id;
                     $operation['distance'] = 0;
                     $operation['avgSpeed'] = 0;
-                    $this->repository->create($operation);
+                    $dbOperation = $this->repository->create($operation);
+                    $operation['id'] = $dbOperation['id'];
                     break;
             }
         }
