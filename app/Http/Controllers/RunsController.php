@@ -55,7 +55,7 @@ class RunsController extends Controller
         }
 
         $operations = $validator->validated();
-        foreach ($operations as $operation) {
+        foreach ($operations as &$operation) {
             switch ($operation['operation']) {
                 case 'delete':
                     $item = Run::find($operation['id']);
@@ -66,7 +66,7 @@ class RunsController extends Controller
                     $operation['distance'] = 0;
                     $operation['avgSpeed'] = 0;
                     $dbOperation = $this->repository->create($operation);
-                    $operation['id'] = $dbOperation['id'];
+                    $operation = $dbOperation;
                     break;
             }
         }
