@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RunsController;
 use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::middleware(['access_token:'])->group(function () {
 
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
+
+    Route::apiResource('messages', MessagesController::class);
+    Route::get('messages-search/{page?}/{friend_id?}', [MessagesController::class, 'search']);
 });
 
 Route::middleware(['optional_access_token:'])->group(function () {

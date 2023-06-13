@@ -10,7 +10,7 @@ class Run extends Model
 {
     use HasFactory;
 
-    var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed', 'locations'];
+    var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed'];
     var $hidden = ['created_at', 'updated_at'];
 
     public static function update_run_stats($id)
