@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Message;
+use Illuminate\Support\Facades\DB;
 
 class MessagesRepository
 {
@@ -32,13 +33,24 @@ class MessagesRepository
         return $query;
     }
 
-    public function search_my_last_messages($user_id = null)
+    public function search_my_last_messages($user_id)
     {
+        $last_received_messages = DB::table('messages')
+            ->where('receiver_id', $user_id)
+            ->select(DB::raw('max(id) as id'))
+            ->groupBy('receiver_id');
+
+        $last_sent_messages = DB::table('messages')
+            ->where('sender_id', $user_id)
+            ->select(DB::raw('max(id) as id'))
+            ->groupBy('sender_id');
+
+        $mesages = $last_sent_messages
+            ->union($last_received_messages)
+            ->get();
+
         $query = Message::query();
-        if (!empty($user_id)) {
-            $query = $query->where('receiver_id', $user_id);
-            $query = $query->orWhere('sender_id', $user_id);
-        }
+        $query = $query->whereIn('id', $mesages);
 
         return $query;
     }
