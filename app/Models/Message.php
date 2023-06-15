@@ -9,5 +9,6 @@ class Message extends Model
 {
     use HasFactory;
 
-    var $fillable = ['sender_id', 'receiver_id', 'text'];
+    var $fillable = ['sender_id', 'receiver_id', 'text', 'read'];
+
 }

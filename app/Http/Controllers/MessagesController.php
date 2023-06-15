@@ -31,6 +31,16 @@ class MessagesController extends Controller
         return response()->json($pagination, 200);
     }
 
+    public function my_last_messages(Request $request, $page = 1): JsonResponse
+    {
+        $user_id = $request->user->id;
+        $query = $this->repository->search_my_last_messages($user_id);
+        $query = $query->orderBy('created_at', 'desc');
+        $pagination = $this->paginationService->applyPagination($query, $page);
+
+        return response()->json($pagination, 200);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $user = $request->user;
@@ -49,7 +59,7 @@ class MessagesController extends Controller
 
         $dbItem = $this->repository->create($item);
 
-        return response()->json($dbItem, 200);
+        return response()->json(Message::find($dbItem['id']), 200);
     }
 
     /**

@@ -32,6 +32,17 @@ class MessagesRepository
         return $query;
     }
 
+    public function search_my_last_messages($user_id = null)
+    {
+        $query = Message::query();
+        if (!empty($user_id)) {
+            $query = $query->where('receiver_id', $user_id);
+            $query = $query->orWhere('sender_id', $user_id);
+        }
+
+        return $query;
+    }
+
     public function update(Message $item, $data)
     {
         return $item->update($data);
