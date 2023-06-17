@@ -47,7 +47,7 @@ class MessagesRepository
 
         $mesages = $last_sent_messages
             ->union($last_received_messages)
-            ->get();
+            ->pluck('id');
 
         $query = Message::query();
         $query = $query->whereIn('id', $mesages);
