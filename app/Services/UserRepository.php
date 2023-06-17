@@ -46,11 +46,12 @@ class UserRepository
         return User::where('email', $email)->first();
     }
 
-    public function getUserByEmailAndRememberToken($item) {
+    public function getUserByEmailAndRememberToken($item)
+    {
         return User
-        ::where('email', $item['email'])
-        ->where('remember_token', $item['remember_token'])
-        ->first();
+            ::where('email', $item['email'])
+            ->where('remember_token', $item['remember_token'])
+            ->first();
     }
 
     public function create($item)
@@ -58,13 +59,20 @@ class UserRepository
         return User::create($item);
     }
 
-    public function search(string $keyword = null)
+    public function search(string $keyword = null, $user_id = null, MessagesRepository $messageRepository = null)
     {
         $query = User::query();
 
         if (!empty($keyword)) {
             $query = $query->where('name', 'like', '%' . $keyword . '%');
         }
+
+        if (!empty($user_id)) {
+            $my_last_messages = $messageRepository
+                ->search_my_last_messages($user_id)
+                ->get();
+        }
+
         return $query;
     }
 
