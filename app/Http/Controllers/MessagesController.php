@@ -35,7 +35,7 @@ class MessagesController extends Controller
     {
         $user_id = $request->user->id;
         $query = $this->repository->search_my_last_messages($user_id);
-        $query = $query->orderBy('created_at', 'desc');
+        $query = $query->orderBy('read', 'desc')->orderby('created_at', 'desc');
         $pagination = $this->paginationService->applyPagination($query, $page);
 
         return response()->json($pagination, 200);
