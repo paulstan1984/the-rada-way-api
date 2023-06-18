@@ -26,12 +26,12 @@ class Message extends Model
     #region appenders
     public function getReceiverNameAttribute()
     {
-        return $this->receiver->name;
+        return $this->receiver?->name;
     }
 
     public function getSenderNameAttribute()
     {
-        return $this->sender->name;
+        return $this->sender?->name;
     }
     #endregion
 }

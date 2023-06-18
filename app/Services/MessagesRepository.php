@@ -38,19 +38,24 @@ class MessagesRepository
         $last_received_messages = DB::table('messages')
             ->where('receiver_id', $user_id)
             ->select(DB::raw('max(id) as id'))
-            ->groupBy('receiver_id');
+            ->groupBy('sender_id');
 
         $last_sent_messages = DB::table('messages')
             ->where('sender_id', $user_id)
             ->select(DB::raw('max(id) as id'))
-            ->groupBy('sender_id');
+            ->groupBy('receiver_id');
 
         $mesages = $last_sent_messages
             ->union($last_received_messages)
             ->pluck('id');
 
-        $query = Message::query();
-        $query = $query->whereIn('id', $mesages);
+        $query = Message::query()
+            ->addSelect(DB::raw('*, IF(receiver_id = ' . $user_id . ', 1, 0) as received'));
+
+        $query = $query->whereIn('id', $mesages)
+            ->orderBy('received', 'desc')
+            ->orderBy('read', 'desc')
+            ->orderby('created_at', 'desc');
 
         return $query;
     }

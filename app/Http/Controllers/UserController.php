@@ -10,6 +10,7 @@ use App\Services\RunsRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPassword;
+use App\Services\MessagesRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 
@@ -17,12 +18,18 @@ class UserController extends Controller
 {
     var $repository;
     var $runsRepository;
+    var $messageRepository;
     var $paginationService;
 
-    public function __construct(UserRepository $repository, RunsRepository $runsRepository, PaginationService $paginationService)
-    {
+    public function __construct(
+        UserRepository $repository,
+        RunsRepository $runsRepository,
+        MessagesRepository $messageRepository,
+        PaginationService $paginationService
+    ) {
         $this->repository = $repository;
         $this->runsRepository = $runsRepository;
+        $this->messageRepository = $messageRepository;
         $this->paginationService = $paginationService;
     }
 
@@ -159,10 +166,18 @@ class UserController extends Controller
         return response()->json(['mail_sent' => true], 200);
     }
 
-    
-    public function search(Request $request, $page = 1, $keyword = null) : JsonResponse
+
+    public function search(Request $request, $page = 1, $keyword = null): JsonResponse
     {
-        $query = $this->repository->search($keyword);
+        $user_id = $request->user->id;
+
+        $my_last_messages = null;
+        if (!empty($user_id)) {
+            $my_last_messages = $this->messageRepository
+                ->search_my_last_messages($user_id);
+        }
+
+        $query = $this->repository->search($keyword, $my_last_messages);
         $query = $query->where('id', '<>', $request->user->id);
         $query = $query->orderBy('name', 'asc');
         $pagination = $this->paginationService->applyPagination($query, $page);
@@ -175,7 +190,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index() : JsonResponse
+    public function index(): JsonResponse
     {
         return response()->json('Ok', 200);
     }
@@ -186,7 +201,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) : JsonResponse
+    public function store(Request $request): JsonResponse
     {
         return response()->json('Ok', 200);
     }
@@ -196,7 +211,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id) : JsonResponse
+    public function show(int $id): JsonResponse
     {
         $user = User::find($id);
 
@@ -216,7 +231,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user) : JsonResponse
+    public function update(Request $request, User $user): JsonResponse
     {
         $user = $request->user;
 
@@ -245,7 +260,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user) : JsonResponse
+    public function destroy(User $user): JsonResponse
     {
         return response()->json('Ok', 200);
     }

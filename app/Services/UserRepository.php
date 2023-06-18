@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class UserRepository
 {
@@ -59,7 +60,7 @@ class UserRepository
         return User::create($item);
     }
 
-    public function search(string $keyword = null, $user_id = null, MessagesRepository $messageRepository = null)
+    public function search(string $keyword = null, Builder $last_user_messages = null)
     {
         $query = User::query();
 
@@ -67,10 +68,8 @@ class UserRepository
             $query = $query->where('name', 'like', '%' . $keyword . '%');
         }
 
-        if (!empty($user_id)) {
-            $my_last_messages = $messageRepository
-                ->search_my_last_messages($user_id)
-                ->get();
+        if ($last_user_messages != null) {
+            //$query = $query->join
         }
 
         return $query;
