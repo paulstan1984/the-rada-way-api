@@ -181,6 +181,7 @@ class UserController extends Controller
         $query = $query->where('users.id', '<>', $request->user->id);
 
         if(!empty($user_id)) {
+            $query = $query->orderBy('last_message_read');
             $query = $query->orderBy('last_message_date', 'desc');
         }
 
