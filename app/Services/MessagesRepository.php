@@ -16,8 +16,8 @@ class MessagesRepository
     public function search($user1_id, $user2_id)
     {
         $query = Message::query()
-            ->where(DB::raw('sender_id = ' . $user1_id . ' and receiver_id = ' . $user2_id))
-            ->orWhere(DB::raw('sender_id = ' . $user2_id . ' and receiver_id = ' . $user1_id));
+            ->whereRaw('(sender_id = ' . $user1_id . ' and receiver_id = ' . $user2_id . ')')
+            ->orWhereRaw('(sender_id = ' . $user2_id . ' and receiver_id = ' . $user1_id . ')');
 
         return $query;
     }
