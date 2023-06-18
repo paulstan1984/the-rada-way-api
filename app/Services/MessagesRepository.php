@@ -50,12 +50,7 @@ class MessagesRepository
             ->pluck('id');
 
         $query = Message::query()
-            ->addSelect(DB::raw('*, IF(receiver_id = ' . $user_id . ', 1, 0) as received'));
-
-        $query = $query->whereIn('id', $mesages)
-            ->orderBy('received', 'desc')
-            ->orderBy('read', 'desc')
-            ->orderby('created_at', 'desc');
+            ->whereIn('id', $mesages);
 
         return $query;
     }

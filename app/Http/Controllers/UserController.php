@@ -179,6 +179,11 @@ class UserController extends Controller
 
         $query = $this->repository->search($keyword, $my_last_messages);
         $query = $query->where('id', '<>', $request->user->id);
+
+        if(!empty($user_id)) {
+            $query = $query->orderBy('last_message_date', 'desc');
+        }
+
         $query = $query->orderBy('name', 'asc');
         $pagination = $this->paginationService->applyPagination($query, $page);
 

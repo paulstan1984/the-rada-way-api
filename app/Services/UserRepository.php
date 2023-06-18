@@ -69,7 +69,11 @@ class UserRepository
         }
 
         if ($last_user_messages != null) {
-            //$query = $query->join
+            $query = $query
+                ->leftJoinSub($last_user_messages, 'last_user_messages', function (JoinClause $join) {
+                    $join->on(DB: raw('users.id = last_user_messages.receiver_id or users.id = last_user_messages.sender_id'));
+                })
+                ->select('users.*', 'last_user_messages.created_on as last_message_date');
         }
 
         return $query;
