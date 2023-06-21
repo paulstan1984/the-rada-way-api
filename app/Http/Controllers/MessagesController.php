@@ -43,6 +43,7 @@ class MessagesController extends Controller
         if ($type == 'older') {
             $query = $query->orderBy('id', 'desc');
         }
+
         $pagination = $this->paginationService->getPagePagination($query);
 
         return response()->json($pagination, 200);
