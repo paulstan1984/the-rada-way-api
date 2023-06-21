@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\JoinClause;
 
 class UserRepository
 {
@@ -72,9 +72,17 @@ class UserRepository
         if ($last_user_messages != null) {
             $query = $query
                 ->leftJoinSub($last_user_messages, 'last_user_messages', function (JoinClause $join) {
-                    $join->on(DB::raw('users.id = last_user_messages.receiver_id or users.id = last_user_messages.sender_id'));
+                    $join->on('users.id', '=', 'last_user_messages.receiver_id');
+                    $join->orOn('users.id', '=', 'last_user_messages.sender_id');
                 })
-                ->select('users.*', 'last_user_messages.created_on as last_message_date');
+                ->select('users.*', 
+                    'last_user_messages.created_at as last_message_date',
+                    'last_user_messages.id as last_message_id',
+                    'last_user_messages.read as last_message_read',
+                    'last_user_messages.text as last_message',
+                    'last_user_messages.receiver_id as receiver_id',
+                    'last_user_messages.sender_id as sender_id'
+                );
         }
 
         return $query;

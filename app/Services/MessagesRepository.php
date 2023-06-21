@@ -13,22 +13,11 @@ class MessagesRepository
         return Message::create($item);
     }
 
-    public function search($user1_id = null, $user2_id = null)
+    public function search($user1_id, $user2_id)
     {
-        $query = Message::query();
-
-        $user_ids = array();
-
-        if (!empty($user1_id)) {
-            $user_ids[] = $user1_id;
-        }
-        if (!empty($user2_id)) {
-            $user_ids[] = $user2_id;
-        }
-
-        if (count($user_ids) > 0) {
-            $query = $query->whereIn('receiver_id', $user_ids);
-        }
+        $query = Message::query()
+            ->whereRaw('(sender_id = ' . $user1_id . ' and receiver_id = ' . $user2_id . ')')
+            ->orWhereRaw('(sender_id = ' . $user2_id . ' and receiver_id = ' . $user1_id . ')');
 
         return $query;
     }
