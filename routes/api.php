@@ -36,7 +36,7 @@ Route::middleware(['access_token:'])->group(function () {
 
     Route::apiResource('messages', MessagesController::class);
     Route::get('messages-search/{page?}/{friend_id?}', [MessagesController::class, 'search']);
-    Route::get('messages-search/{friend_id?}/{type?}/{last_id?}', [MessagesController::class, 'getMessages']);
+    Route::get('messages-get/{friend_id?}/{type?}/{last_id?}', [MessagesController::class, 'getMessages']);
     
 });
 
