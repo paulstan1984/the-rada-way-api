@@ -127,7 +127,7 @@ class UserController extends Controller
 
         $item = $validator->validated();
         if (!empty($request->user)) {
-            $user = $request->user;
+            $user = User::find($request->user->id);
         } else {
             $user = $this->repository->getUserByEmailAndRememberToken($item);
         }
@@ -180,7 +180,7 @@ class UserController extends Controller
         $query = $this->repository->search($keyword, $my_last_messages);
         $query = $query->where('users.id', '<>', $request->user->id);
 
-        if(!empty($user_id)) {
+        if (!empty($user_id)) {
             $query = $query->orderByRaw('IFNULL(last_message_read, 1)');
             $query = $query->orderBy('last_message_date', 'desc');
         }
