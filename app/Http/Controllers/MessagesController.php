@@ -31,6 +31,23 @@ class MessagesController extends Controller
         return response()->json($pagination, 200);
     }
 
+    public function getMessages(Request $request, $friend_id, $type = 'older', $lastId = null): JsonResponse
+    {
+        $user_id = $request->user->id;
+        $query = $this->repository->getMessages($user_id, $friend_id, $type, $lastId);
+
+        if ($type == 'newer') {
+            $query = $query->orderBy('id', 'asc');
+        }
+
+        if ($type == 'older') {
+            $query = $query->orderBy('id', 'desc');
+        }
+        $pagination = $this->paginationService->getPagePagination($query);
+
+        return response()->json($pagination, 200);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $user = $request->user;

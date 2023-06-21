@@ -30,4 +30,17 @@ class PaginationService
                 ->get()
         ];
     }
+
+    function getPagePagination(Builder $query) {
+        $count = $query->count();
+
+        return [
+            'count'    => $count,
+            'page_size' => $this->PageSize,
+            'nr_pages' => ceil($count / $this->PageSize),
+            'results'  => $query
+                ->take($this->PageSize)
+                ->get()
+        ];
+    }
 }

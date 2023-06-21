@@ -22,6 +22,20 @@ class MessagesRepository
         return $query;
     }
 
+    public function getMessages($user_id, $friend_id, $type, $lastId) {
+        $query = $this->search($user_id, $friend_id);
+
+        if($type == 'newer' && !empty($lastId)){
+            $query = $query->where('id', '>', $lastId);
+        }
+
+        if($type == 'older' && !empty($lastId)){
+            $query = $query->where('id', '<', $lastId);
+        }
+
+        return $query;
+    }
+
     public function search_my_last_messages($user_id)
     {
         $last_received_messages = DB::table('messages')
