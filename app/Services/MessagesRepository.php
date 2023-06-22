@@ -37,6 +37,14 @@ class MessagesRepository
         return $query;
     }
 
+    public function markAllRead($user_id, $friend_id)
+    {
+        Message::query()
+            ->where('sender_id', '=', $friend_id)
+            ->where('receiver_id', '=', $user_id)
+            ->update(['read' => 1]);
+    }
+
     public function search_my_last_messages($user_id)
     {
         $last_received_messages = DB::table('messages')

@@ -37,7 +37,7 @@ Route::middleware(['access_token:'])->group(function () {
     Route::apiResource('messages', MessagesController::class);
     Route::get('messages-search/{page?}/{friend_id?}', [MessagesController::class, 'search']);
     Route::get('messages-get/{friend_id?}/{type?}/{last_id?}', [MessagesController::class, 'getMessages']);
-    
+    Route::put('messages-mark-read/{friend_id?}', [MessagesController::class, 'markAllRead']);
 });
 
 Route::middleware(['optional_access_token:'])->group(function () {

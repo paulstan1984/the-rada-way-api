@@ -49,6 +49,14 @@ class MessagesController extends Controller
         return response()->json($pagination, 200);
     }
 
+    public function markAllRead(Request $request, $friend_id): JsonResponse
+    {
+        $user_id = $request->user->id;
+        $query = $this->repository->markAllRead($user_id, $friend_id);
+
+        return response()->json(['ok' => true], 200);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $user = $request->user;
