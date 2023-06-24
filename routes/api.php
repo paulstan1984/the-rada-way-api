@@ -23,6 +23,7 @@ Route::get('health-check', [UserController::class, 'health_check']);
 Route::middleware(['access_token:'])->group(function () {
     Route::apiResource('users', UserController::class);
     Route::get('users-search/{page?}/{keyword?}', [UserController::class, 'search']);
+    Route::put('users-running/{running?}', [UserController::class, 'update_running']);
 
     Route::apiResource('runs', RunsController::class);
     Route::get('runs-search/{page?}/{user_id?}', [RunsController::class, 'search']);

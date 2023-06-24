@@ -260,6 +260,17 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
+    public function update_running(Request $request, int $running): JsonResponse
+    {
+        $user = $request->user;
+
+        print $running;
+
+        $this->repository->update($user, ['running' => $running]);
+
+        return response()->json($user, 200);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
