@@ -16,6 +16,10 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('running')->default(false);
         });
+
+        Schema::table('runs', function (Blueprint $table) {
+            $table->boolean('running')->default(false);
+        });
     }
 
     /**
@@ -26,6 +30,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('running');
+        });
+
+        Schema::table('runs', function (Blueprint $table) {
             $table->dropColumn('running');
         });
     }

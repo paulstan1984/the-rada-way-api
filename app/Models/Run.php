@@ -9,7 +9,7 @@ class Run extends Model
 {
     use HasFactory;
 
-    var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed'];
+    var $fillable = ['user_id', 'startTime', 'endTime', 'distance', 'avgSpeed', 'running'];
     var $hidden = ['created_at', 'updated_at'];
 
     protected $casts = [

@@ -26,12 +26,12 @@ class RunsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request) : JsonResponse
+    public function index(Request $request): JsonResponse
     {
         return $this->search($request, 1, $request->user->id);
     }
 
-    public function search(Request $request, $page = 1, $user_id) : JsonResponse
+    public function search(Request $request, $page = 1, $user_id): JsonResponse
     {
         $query = $this->repository->search($user_id);
         $query = $query->orderBy('startTime', 'desc');
@@ -41,7 +41,7 @@ class RunsController extends Controller
     }
 
     public function sync(Request $request)
-    {       
+    {
         $user_id = $request->user->id;
         $validator = Validator::make($request->all(), [
             '*.operation' => ['required', Rule::in(['insert', 'delete'])],
@@ -79,7 +79,7 @@ class RunsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, int $Id) : JsonResponse
+    public function show(Request $request, int $Id): JsonResponse
     {
         $item = Run::find($Id);
 
@@ -95,7 +95,7 @@ class RunsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, int $Id) : JsonResponse
+    public function destroy(Request $request, int $Id): JsonResponse
     {
         $item = Run::find($Id);
 
@@ -110,5 +110,22 @@ class RunsController extends Controller
         $this->repository->delete($item);
 
         return response()->json(true, 200);
+    }
+
+    public function update_running(Request $request, int $run_id, int $running): JsonResponse
+    {
+        $item = Run::find($run_id);
+
+        if ($item == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        if ($item->user_id != $request->user->id) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $this->repository->update($item, ['running' => $running]);
+
+        return response()->json($item, 200);
     }
 }

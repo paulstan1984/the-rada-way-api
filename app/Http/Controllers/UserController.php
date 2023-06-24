@@ -264,8 +264,6 @@ class UserController extends Controller
     {
         $user = $request->user;
 
-        print $running;
-
         $this->repository->update($user, ['running' => $running]);
 
         return response()->json($user, 200);
