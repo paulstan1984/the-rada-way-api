@@ -68,4 +68,15 @@ class LocationsController extends Controller
 
         return response()->json($operations, 200);
     }
+
+    public function get_next_locations(Request $request, $run_id, $last_location_id): JsonResponse
+    {
+        $query = $this->repository->search($run_id);
+        $query = $query->where('id', '>', $last_location_id);
+        $query = $query->orderBy('id', 'asc');
+
+        $pagination = $this->paginationService->getPagePagination($query);
+
+        return response()->json($pagination, 200);
+    }
 }
