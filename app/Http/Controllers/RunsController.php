@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\RunsRepository;
+use App\Services\UserRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -13,11 +14,13 @@ use Illuminate\Http\JsonResponse;
 class RunsController extends Controller
 {
     var $repository;
+    var $userRepository;
     var $paginationService;
 
-    public function __construct(RunsRepository $repository, PaginationService $paginationService)
+    public function __construct(RunsRepository $repository, UserRepository $userRepository, PaginationService $paginationService)
     {
         $this->repository = $repository;
+        $this->userRepository = $userRepository;
         $this->paginationService = $paginationService;
     }
 
@@ -125,6 +128,7 @@ class RunsController extends Controller
         }
 
         $this->repository->update($item, ['running' => $running]);
+        $this->userRepository->update($request->user, ['running' => $running]);
 
         return response()->json($item, 200);
     }
