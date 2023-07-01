@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::table('locations', function (Blueprint $table) {
             //
-            $table->string('lat', 10)->change();
-            $table->string('lng', 10)->change();
+            $table->string('lat', 20)->change();
+            $table->string('lng', 20)->change();
             $table->decimal('speed', 12, 8)->change();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
