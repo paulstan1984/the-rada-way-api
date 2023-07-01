@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\MyDateTime;
 
 class Run extends Model
 {
@@ -13,8 +14,8 @@ class Run extends Model
     var $hidden = ['created_at', 'updated_at'];
 
     protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s',
+        'created_at' => MyDateTime::class,
+        'updated_at' => MyDateTime::class,
     ];
 
     public static function update_run_stats($id)
