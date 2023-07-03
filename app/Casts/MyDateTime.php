@@ -17,7 +17,7 @@ class MyDateTime implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return date('Y-m-d H:i:s', strtotime($value));
+        return date('Y-m-d H:i', strtotime($value));
     }
 
     /**
