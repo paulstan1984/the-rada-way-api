@@ -31,7 +31,7 @@ Route::middleware(['access_token:'])->group(function () {
 
     Route::get('locations-search/{page}/{run_id}', [LocationsController::class, 'search']);
     Route::post('locations/sync/{run_id?}', [LocationsController::class, 'sync']);
-    Route::get('locations-next/{run_id}/{last_location_id}', [LocationsController::class, 'get_next_locations']);
+    Route::get('locations-next/{run_id}/{last_location_position}', [LocationsController::class, 'get_next_locations']);
 
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
