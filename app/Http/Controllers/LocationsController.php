@@ -25,7 +25,7 @@ class LocationsController extends Controller
     public function search(Request $request, $page, $run_id): JsonResponse
     {
         $query = $this->repository->search($run_id);
-        $query = $query->orderBy('id', 'asc');
+        $query = $query->orderBy('position', 'asc')->orderBy('id', 'asc');
         $pagination = $this->paginationService->applyPagination($query, $page);
 
         return response()->json($pagination, 200);
