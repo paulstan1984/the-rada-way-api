@@ -9,7 +9,6 @@ class Location extends Model
 {
     use HasFactory;
 
-    var $fillable = ['run_id', 'lat', 'lng', 'speed', 'distance'];
+    var $fillable = ['run_id', 'lat', 'lng', 'speed', 'distance', 'position'];
 
-    public $timestamps= false;
 }

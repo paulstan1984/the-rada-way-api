@@ -40,6 +40,7 @@ class LocationsController extends Controller
             '*.lng' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,17'],
             '*.distance' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,17'],
             '*.speed' => ['exclude_if:*.operation,delete', 'required', 'decimal:0,17'],
+            '*.position' => ['exclude_if:*.operation,delete', 'integer'],
         ]);
 
         if ($validator->fails()) {
