@@ -131,7 +131,7 @@ class RunsController extends Controller
         $this->userRepository->update($request->user, ['running' => $running]);
 
         if ($running == 0) {
-            $this->userRepository->update($request->user, ['endTime' => date('Y-m-d H:i:s')]);
+            $this->repository->update($item, ['endTime' => date('Y-m-d H:i:s')]);
         }
 
         return response()->json($item, 200);
