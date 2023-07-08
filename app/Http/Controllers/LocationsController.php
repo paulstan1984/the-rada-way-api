@@ -19,7 +19,7 @@ class LocationsController extends Controller
     {
         $this->repository = $repository;
         $this->paginationService = $paginationService;
-        $this->paginationService->PageSize = 30;
+        $this->paginationService->PageSize = 100;
     }
 
     public function search(Request $request, $page, $run_id): JsonResponse
