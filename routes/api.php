@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RunsController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MessagesController;
-
+use App\Http\Controllers\ArticlesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
