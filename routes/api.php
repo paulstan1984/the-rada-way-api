@@ -33,6 +33,9 @@ Route::middleware(['access_token:'])->group(function () {
     Route::post('locations/sync/{run_id?}', [LocationsController::class, 'sync']);
     Route::get('locations-next/{run_id}/{last_location_position}', [LocationsController::class, 'get_next_locations']);
 
+    Route::get('categories', [ArticlesController::class, 'categories']);
+    Route::get('articles/{category_id?}', [ArticlesController::class, 'search']);
+
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
 
