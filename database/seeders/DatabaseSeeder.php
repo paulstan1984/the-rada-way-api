@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         ))
             ->create();
 
-        Article::factory(4)->state(new Sequence(
+        Article::factory(6)->state(new Sequence(
             [
                 'title' => '„Vreau să joc” - autobiografia lui Ionuț Rada', 
                 'description' => 'Povestea a început în urmă cu 10 ani, când, cu mult entuziasm și emoție, m-am apucat să îmi notez una și alta.
@@ -80,6 +80,35 @@ class DatabaseSeeder extends Seeder
                 'position' => 3
             ],
             [
+                'title' => 'Cum o arată o gustare TheRadaWay după un antrenament?', 
+                'description' => 'Cum o arată o gustare TheRadaWay după un antrenament TheRadaWay😀
+                V-am făcut poftă?😜
+                Cum arăta farfuria voastră?😁
+                Bio Culture #alimentațiesanatoasă 
+                www.theradaway.ro ⬅️
+                #TheRadaWay #VreauSaJoc #pasiune #sport #emoție', 
+                'link' => 'https://youtu.be/kE91WV3ugBI', 
+                'imagelink' => 'https://i3.ytimg.com/vi/kE91WV3ugBI/hqdefault.jpg', 
+                'created_at' => '2023-06-28',
+                'category_id' => 2,//cardio
+                'position' => 4
+            ],
+            
+            [
+                'title' => 'Alergare pe căldură / de ce să țineți cont?', 
+                'description' => 'Calendarul TheRadaWay începe tot timpul duminica, trupă!💪
+                Alergare,  sport  pe temperaturi ridicate, câteva lucruri de care să țineți cont🤔
+                Sportul continuă și pe frig și pe căldură👏
+                www.theradaway.ro ⬅️
+                #TheRadaWay #VreauSaJoc #pasiune #sport #emoție', 
+                'link' => 'https://youtu.be/ZokNgpvpspM', 
+                'imagelink' => 'https://i3.ytimg.com/vi/ZokNgpvpspM/hqdefault.jpg', 
+                'created_at' => '2023-07-09',
+                'category_id' => 2,//cardio
+                'position' => 5
+            ],
+            
+            [
                 'title' => 'Repriza de mișcare / antrenament TheRadaWay', 
                 'description' => 'Marțea activă, trupă!💪
                 Antrenamentele TheRadaWay sunt o combinație din școala alergării, pilates, yoga, cardio, exerciții care să te ajute să ai o viață sănătoasă!💪
@@ -90,7 +119,7 @@ class DatabaseSeeder extends Seeder
                 'imagelink' => 'https://i3.ytimg.com/vi/dQsBY2-pxnw/hqdefault.jpg', 
                 'created_at' => '2023-07-11',
                 'category_id' => 2,//cardio
-                'position' => 4
+                'position' => 6
             ],
             
         ))->create();
