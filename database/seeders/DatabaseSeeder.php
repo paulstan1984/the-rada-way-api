@@ -46,7 +46,6 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         Article::factory(4)->state(new Sequence(
-            //learn
             [
                 'title' => '„Vreau să joc” - autobiografia lui Ionuț Rada', 
                 'description' => 'Povestea a început în urmă cu 10 ani, când, cu mult entuziasm și emoție, m-am apucat să îmi notez una și alta.
@@ -55,7 +54,7 @@ class DatabaseSeeder extends Seeder
                 'link' => 'https://www.the-rada-way.ro', 
                 'imagelink' => 'images/articles/poza-coperta-carte-ionut-rada.jpeg', 
                 'created_at' => '2023-07-10',
-                'category_id' => 1,
+                'category_id' => 1,//learn
                 'position' => 1
             ],
             [
@@ -64,24 +63,9 @@ class DatabaseSeeder extends Seeder
                 'link' => 'https://www.the-rada-way.ro', 
                 'imagelink' => 'images/articles/antrenamente-fitness-online-ionut-rada.jpeg', 
                 'created_at' => '2023-07-03',
-                'category_id' => 1,
+                'category_id' => 1,//learn
                 'position' => 2
             ],
-            //cardio
-            [
-                'title' => 'Repriza de mișcare / antrenament TheRadaWay', 
-                'description' => 'Marțea activă, trupă!💪
-                Antrenamentele TheRadaWay sunt o combinație din școala alergării, pilates, yoga, cardio, exerciții care să te ajute să ai o viață sănătoasă!💪
-                Cel mai important este că antrenamentele TheRadaWay le faci cu zâmbetul pe buze😀
-                www.theradaway.ro ⬅️
-                #TheRadaWay #VreauSaJoc #pasiune #sport #emoție', 
-                'link' => 'https://youtu.be/dQsBY2-pxnw', 
-                'imagelink' => 'https://i3.ytimg.com/vi/dQsBY2-pxnw/hqdefault.jpg', 
-                'created_at' => '2023-07-11',
-                'category_id' => 2,
-                'position' => 1
-            ],
-            //fotbal
             [
                 'title' => 'Fișa postului / fundaș central', 
                 'description' => 'Aici este pe felia mea să zic așa😃
@@ -92,8 +76,21 @@ class DatabaseSeeder extends Seeder
                 'link' => 'https://youtu.be/O0PR3H8W14k', 
                 'imagelink' => 'https://i3.ytimg.com/vi/O0PR3H8W14k/hqdefault.jpg', 
                 'created_at' => '2023-01-11',
-                'category_id' => 3,
-                'position' => 1
+                'category_id' => 3,//fotbal
+                'position' => 3
+            ],
+            [
+                'title' => 'Repriza de mișcare / antrenament TheRadaWay', 
+                'description' => 'Marțea activă, trupă!💪
+                Antrenamentele TheRadaWay sunt o combinație din școala alergării, pilates, yoga, cardio, exerciții care să te ajute să ai o viață sănătoasă!💪
+                Cel mai important este că antrenamentele TheRadaWay le faci cu zâmbetul pe buze😀
+                www.theradaway.ro ⬅️
+                #TheRadaWay #VreauSaJoc #pasiune #sport #emoție', 
+                'link' => 'https://youtu.be/dQsBY2-pxnw', 
+                'imagelink' => 'https://i3.ytimg.com/vi/dQsBY2-pxnw/hqdefault.jpg', 
+                'created_at' => '2023-07-11',
+                'category_id' => 2,//cardio
+                'position' => 4
             ],
             
         ))->create();
