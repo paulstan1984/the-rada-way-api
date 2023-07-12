@@ -25,7 +25,7 @@ class ArticlesController extends Controller
         $pagination = $this->paginationService->applyPagination($query, 1);
 
         foreach ($pagination['results'] as $article) {
-            if (strpos($article['imagelink'], 'https://') === false) {
+            if (strpos($article['imagelink'], 'http://') === false) {
                 $article['imagelink'] = env('APP_URL') . $article['imagelink'];
             }
         }
