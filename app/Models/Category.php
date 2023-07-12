@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    var $fillable = ['name', 'imagelink'];
+    var $fillable = ['name', 'imagelink', 'position'];
     var $hidden = ['created_at', 'updated_at'];
 
     protected $casts = [

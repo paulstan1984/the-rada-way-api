@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name', 50);
             $table->string('imagelink', 100);
+            $table->integer('position');
         });
 
         Schema::create('articles', function (Blueprint $table) {
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->string('description', 1000);
             $table->string('imagelink', 100);
             $table->string('link', 100);
+            $table->integer('position');
         });
 
         Schema::table('articles', function (Blueprint $table) {

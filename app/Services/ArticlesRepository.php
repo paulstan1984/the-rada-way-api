@@ -35,6 +35,6 @@ class ArticlesRepository
 
     public function categories()
     {
-        return Category::all();
+        return Category::query();
     }
 }
