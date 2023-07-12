@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
                 www.theradaway.ro ⬅️
                 #TheRadaWay #VreauSaJoc #pasiune #sport #emoție', 
                 'link' => 'https://youtu.be/dQsBY2-pxnw', 
-                'imagelink' => 'http://i3.ytimg.com/vi/dQsBY2-pxnw/hqdefault.jpg', 
+                'imagelink' => 'https://i3.ytimg.com/vi/dQsBY2-pxnw/hqdefault.jpg', 
                 'created_at' => '2023-07-11',
                 'category_id' => 2,
                 'position' => 1
@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
                 Pentru colaboratori întrați pe www.theradaway.ro si la sectiunea contact@theradaway.ro scrieți messjul VREAU SĂ JOC
                 #TheRadaWay #Educație', 
                 'link' => 'https://youtu.be/O0PR3H8W14k', 
-                'imagelink' => 'http://i3.ytimg.com/vi/O0PR3H8W14k/hqdefault.jpg', 
+                'imagelink' => 'https://i3.ytimg.com/vi/O0PR3H8W14k/hqdefault.jpg', 
                 'created_at' => '2023-01-11',
                 'category_id' => 3,
                 'position' => 1
