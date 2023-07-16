@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         ))
             ->create();
 
-        Article::factory(6)->state(new Sequence(
+        Article::factory(8)->state(new Sequence(
             [
                 'title' => '„Vreau să joc” - autobiografia lui Ionuț Rada', 
                 'description' => 'Povestea a început în urmă cu 10 ani, când, cu mult entuziasm și emoție, m-am apucat să îmi notez una și alta.
@@ -120,6 +120,31 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2023-07-11',
                 'category_id' => 2,//cardio
                 'position' => 6
+            ],
+
+            [
+                'title' => ' Bună dimineața trupă ☀️', 
+                'description' => ' Bună dimineața trupă ☀️', 
+                'link' => 'https://youtu.be/_CqQEIhwp7U', 
+                'imagelink' => 'https://i3.ytimg.com/vi/_CqQEIhwp7U/hqdefault.jpg', 
+                'created_at' => '2023-07-01',
+                'category_id' => 2,//cardio
+                'position' => 7
+            ],
+
+            [
+                'title' => 'Prieteni de ocazie / Cum ați renunțat la ei?', 
+                'description' => 'Calendarul TheRadaWay începe tot timpul duminica,  trupă!💪
+                Cum vă descurcați cu prietenii de ocazie?😁
+                Sunt curios cum ați întrerupt aceste relații😅
+                Rămâneți activi chiar și după o astfel de relație 😀
+                www.theradaway.ro ⬅️
+                #TheRadaWay #VreauSaJoc #pasiune #sport #emoție', 
+                'link' => 'https://youtu.be/W2UP5JDDM_o', 
+                'imagelink' => 'https://i3.ytimg.com/vi/W2UP5JDDM_o/hqdefault.jpg', 
+                'created_at' => '2023-07-16',
+                'category_id' => 2,//cardio
+                'position' => 8
             ],
             
         ))->create();
