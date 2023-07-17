@@ -6,6 +6,7 @@ use App\Http\Controllers\RunsController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ArticlesController;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +19,11 @@ use App\Http\Controllers\ArticlesController;
 */
 
 Route::get('health-check', [UserController::class, 'health_check']);
+
+Route::middleware(['access_token:' . User::ADMIN])->group(function () {
+    Route::post('articles', [ArticlesController::class, 'store']);
+    Route::delete('articles/{Id}', [ArticlesController::class, 'destroy']);
+});
 
 Route::middleware(['access_token:'])->group(function () {
     Route::apiResource('users', UserController::class);
