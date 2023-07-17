@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Services\PaginationService;
 use App\Services\ArticlesRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Models\Article;
 
 class ArticlesController extends Controller
 {
@@ -43,5 +47,49 @@ class ArticlesController extends Controller
         }
 
         return response()->json($categs, 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:articles|max:100',
+            'description' => 'required|max:1000',
+            'imagelink' => 'required|max:100',
+            'link' => 'required|max:100',
+            'category_id' => ['required', Rule::exists('categories', 'id')]
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $this->repository->create($validator->validated());
+
+        return response()->json($item, 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Article $article
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $Id)
+    {
+        $article = Article::find($Id);
+
+        if ($article == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $this->repository->delete($article);
+
+        return response()->json(true, 200);
     }
 }

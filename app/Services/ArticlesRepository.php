@@ -10,6 +10,7 @@ class ArticlesRepository
 
     public function create($item)
     {
+        $item['position'] = Article::max('position') + 1;
         return Article::create($item);
     }
 
