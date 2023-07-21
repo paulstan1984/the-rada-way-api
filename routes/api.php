@@ -22,6 +22,7 @@ Route::get('health-check', [UserController::class, 'health_check']);
 
 Route::middleware(['access_token:' . User::ADMIN])->group(function () {
     Route::post('articles', [ArticlesController::class, 'store']);
+    Route::put('articles/{Id}', [ArticlesController::class, 'update']);
     Route::delete('articles/{Id}', [ArticlesController::class, 'destroy']);
 });
 

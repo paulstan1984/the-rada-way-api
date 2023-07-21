@@ -75,6 +75,42 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Updates the specified item.
+     *
+     * @param  \App\Models\Article $article
+     * @return \Illuminate\Http\Response
+     */
+    public function update(int $Id, Request $request)
+    {
+        $article = Article::find($Id);
+
+        if ($article == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => [
+                'required', 
+                'max:100',
+                Rule::unique('articles')
+                    ->ignore($article->id)
+            ],
+            'description' => 'required|max:1000',
+            'imagelink' => 'required|max:100',
+            'link' => 'required|max:100',
+            'category_id' => ['required', Rule::exists('categories', 'id')]
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $this->repository->update($article, $validator->validated());
+
+        return response()->json($article, 200);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Article $article
