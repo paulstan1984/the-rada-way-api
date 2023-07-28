@@ -32,8 +32,8 @@ Route::middleware(['access_token:'])->group(function () {
     Route::put('users-running/{running?}', [UserController::class, 'update_running']);
 
     Route::apiResource('runs', RunsController::class);
-    Route::get('runs-search/{page?}/{user_id?}', [RunsController::class, 'search']);
-    Route::put('runs-running/{run_id?}/{running?}', [RunsController::class, 'update_running']);
+    Route::get('runs-search/{page}/{user_id?}', [RunsController::class, 'search']);
+    Route::put('runs-running/{run_id}/{running?}', [RunsController::class, 'update_running']);
     Route::post('runs/sync', [RunsController::class, 'sync']);
 
     Route::get('locations-search/{page}/{run_id}', [LocationsController::class, 'search']);
@@ -47,8 +47,8 @@ Route::middleware(['access_token:'])->group(function () {
     Route::get('logout', [UserController::class, 'logout']);
 
     Route::apiResource('messages', MessagesController::class);
-    Route::get('messages-search/{page?}/{friend_id?}', [MessagesController::class, 'search']);
-    Route::get('messages-get/{friend_id?}/{type?}/{last_id?}', [MessagesController::class, 'getMessages']);
+    Route::get('messages-search/{page}/{friend_id?}', [MessagesController::class, 'search']);
+    Route::get('messages-get/{friend_id}/{type?}/{last_id?}', [MessagesController::class, 'getMessages']);
     Route::put('messages-mark-read/{friend_id?}', [MessagesController::class, 'markAllRead']);
 });
 

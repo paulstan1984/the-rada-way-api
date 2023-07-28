@@ -47,10 +47,14 @@ class RunsController extends Controller
     {
         $user_id = $request->user->id;
         $validator = Validator::make($request->all(), [
-            '*.operation' => ['required', Rule::in(['insert', 'delete'])],
+            '*.operation' => ['required', Rule::in(['insert', 'delete', 'update'])],
             '*.id' => ['exclude_if:*.operation,insert', 'required', Rule::exists('runs', 'id')],
             '*.startTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
             '*.endTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
+            '*.distance' => ['exclude_if:*.operation,delete', 'required_if:*.operation,update', 'decimal:0,17'],
+            '*.avgSpeed' => ['exclude_if:*.operation,delete', 'required_if:*.operation,update', 'decimal:0,17'],
+            '*.locations' => ['exclude_if:*.operation,delete'],
+            '*.running' => ['exclude_if:*.operation,delete', 'required_if:*.operation,update'],
         ]);
 
         if ($validator->fails()) {
@@ -66,10 +70,30 @@ class RunsController extends Controller
                     break;
                 case 'insert':
                     $operation['user_id'] = $user_id;
-                    $operation['distance'] = 0;
-                    $operation['avgSpeed'] = 0;
+                    if (empty($operation['distance'])) {
+                        $operation['distance'] = 0;
+                    }
+                    if (empty($operation['avgSpeed'])) {
+                        $operation['avgSpeed'] = 0;
+                    }
+                    if (empty($operation['locations'])) {
+                        $operation['locations'] = '';
+                    }
+                    if (empty($operation['running'])) {
+                        $operation['running'] = 1;
+                    }
+
                     $dbOperation = $this->repository->create($operation);
                     $operation = $dbOperation;
+                    break;
+                case 'update':
+                    $operation['user_id'] = $user_id;
+                    $item = Run::find($operation['id']);
+                    if (empty($operation['locations'])) {
+                        $operation['locations'] = '';
+                    }
+                    $this->repository->update($item, $operation);
+                    $operation = $item;
                     break;
             }
         }
