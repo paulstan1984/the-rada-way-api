@@ -118,6 +118,37 @@ class RunsController extends Controller
     }
 
     /**
+     * Updates the specified item.
+     *
+     * @param  \App\Models\Article $run
+     * @return \Illuminate\Http\Response
+     */
+    public function update(int $Id, Request $request)
+    {
+        $run = Run::find($Id);
+
+        if ($run == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'locations' => []
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $validatedData = $validator->validated();
+        if (empty($validatedData['locations'])) {
+            $validatedData['locations'] = '';
+        }
+        $this->repository->update($run, $validatedData);
+
+        return response()->json($run, 200);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @return \Illuminate\Http\Response
