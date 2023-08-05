@@ -248,6 +248,7 @@ class UserController extends Controller
             'weight' => ['required', 'integer'],
             'height' => ['required', 'integer'],
             'runGoal' => ['required', 'integer'],
+            'base64_encoded_image' => ['string', 'nullable']
         ]);
 
         if ($validator->fails()) {

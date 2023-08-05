@@ -31,7 +31,8 @@ class User extends Authenticatable
         'password',
         'access_token',
         'remember_token',
-        'running'
+        'running',
+        'base64_encoded_image'
     ];
 
     /**

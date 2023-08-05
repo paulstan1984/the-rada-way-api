@@ -139,11 +139,20 @@ class RunsController extends Controller
             return response()->json($validator->messages(), 404);
         }
 
-        $validatedData = $validator->validated();
-        if (empty($validatedData['locations'])) {
-            $validatedData['locations'] = '';
+        $validator = Validator::make($request->all(), [
+            'locations' => ['string', 'nullable'],
+            'base64_encoded_images' => ['string', 'nullable']
+        ]);
+
+        $validated_data = $validator->validated();
+        if ($validated_data['locations'] == null) {
+            unset($validated_data['locations']);
         }
-        $this->repository->update($run, $validatedData);
+        if ($validated_data['base64_encoded_images'] == null) {
+            unset($validated_data['base64_encoded_images']);
+        }
+
+        $this->repository->update($run, $validated_data);
 
         return response()->json($run, 200);
     }
