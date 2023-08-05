@@ -145,10 +145,10 @@ class RunsController extends Controller
         ]);
 
         $validated_data = $validator->validated();
-        if ($validated_data['locations'] == null) {
+        if (array_key_exists('locations', $validated_data) && $validated_data['locations'] == null) {
             unset($validated_data['locations']);
         }
-        if ($validated_data['base64_encoded_images'] == null) {
+        if (array_key_exists('base64_encoded_images', $validated_data) && $validated_data['base64_encoded_images'] == null) {
             unset($validated_data['base64_encoded_images']);
         }
 
