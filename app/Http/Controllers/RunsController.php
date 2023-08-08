@@ -53,7 +53,8 @@ class RunsController extends Controller
             '*.endTime' => ['exclude_if:*.operation,delete', 'required', 'date'],
             '*.distance' => ['exclude_if:*.operation,delete', 'required_if:*.operation,update', 'decimal:0,17'],
             '*.avgSpeed' => ['exclude_if:*.operation,delete', 'required_if:*.operation,update', 'decimal:0,17'],
-            '*.locations' => ['exclude_if:*.operation,delete'],
+            '*.locations' => ['exclude_if:*.operation,delete', 'string', 'nullable'],
+            '*.base64_encoded_images' => ['exclude_if:*.operation,delete', 'string', 'nullable'],
             '*.running' => ['exclude_if:*.operation,delete', 'required_if:*.operation,update'],
         ]);
 
@@ -79,6 +80,9 @@ class RunsController extends Controller
                     if (empty($operation['locations'])) {
                         $operation['locations'] = '';
                     }
+                    if (empty($operation['base64_encoded_images'])) {
+                        $operation['base64_encoded_images'] = '';
+                    }
                     if (empty($operation['running'])) {
                         $operation['running'] = 1;
                     }
@@ -91,6 +95,9 @@ class RunsController extends Controller
                     $item = Run::find($operation['id']);
                     if (empty($operation['locations'])) {
                         $operation['locations'] = '';
+                    }
+                    if (empty($operation['base64_encoded_images'])) {
+                        $operation['base64_encoded_images'] = '';
                     }
                     $this->repository->update($item, $operation);
                     $operation = $item;
