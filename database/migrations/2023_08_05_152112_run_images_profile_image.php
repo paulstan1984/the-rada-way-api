@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('runs', function (Blueprint $table) {
-            $table->text('base64_encoded_images')->nullable();
+            $table->longText('base64_encoded_images')->nullable();
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->text('base64_encoded_image')->nullable();
+            $table->longText('base64_encoded_image')->nullable();
         });
     }
 
