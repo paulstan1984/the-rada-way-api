@@ -191,6 +191,16 @@ class UserController extends Controller
         return response()->json($pagination, 200);
     }
 
+    public function count_unread_messages(Request $request): JsonResponse
+    {
+        $user_id = $request->user->id;
+
+        $count = $this->messageRepository
+            ->count_unread_messages($user_id);
+
+        return response()->json($count, 200);
+    }
+
     /**
      * Display a listing of the resource.
      *

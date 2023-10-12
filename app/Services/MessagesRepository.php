@@ -67,6 +67,13 @@ class MessagesRepository
         return $query;
     }
 
+    public function count_unread_messages($user_id) {
+        return Message
+            ::where('receiver_id', $user_id)
+            ->where('read', 0)
+            ->count();
+    }
+
     public function update(Message $item, $data)
     {
         return $item->update($data);
