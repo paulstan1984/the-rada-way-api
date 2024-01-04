@@ -105,6 +105,8 @@ class RunsController extends Controller
             }
         }
 
+        $this->userRepository->updateUserStats($user_id);
+
         return response()->json($operations, 200);
     }
 

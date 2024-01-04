@@ -62,4 +62,25 @@ class User extends Authenticatable
     {
         return md5($pasword . env('PASS_HASH'));
     }
+
+    public static function update_run_stats($id)
+    {
+        $user = User::find($id);
+        if (empty($user)) {
+            return;
+        }
+
+        $query =  Run::where('user_id', $id);
+        $runCounter = $query->count();
+        $runTotalKm = $query->sum('distance');
+        $runningPercentage = $user->runGoa == 0 
+            ? 0
+            : min(100, round($runTotalKm * 100 / $user->runGoal, 2));
+
+        $user->update([
+            'runCounter' => $runCounter, 
+            'runTotalKm' => $runTotalKm,
+            'runningPercentage' => round($runningPercentage, 2)
+        ]);
+    }
 }
