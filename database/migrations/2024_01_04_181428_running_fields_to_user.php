@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             
             $table->unsignedInteger('runCounter')->default(0);
-            $table->decimal('runTotalKm', 18, 2);
-            $table->decimal('runningPercentage', 18, 2);
+            $table->decimal('runTotalKm', 18, 2)->default(0);
+            $table->decimal('runningPercentage', 18, 2)->default(0);
         });
     }
 

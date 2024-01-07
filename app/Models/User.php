@@ -32,7 +32,10 @@ class User extends Authenticatable
         'access_token',
         'remember_token',
         'running',
-        'base64_encoded_image'
+        'base64_encoded_image',
+        'runCounter',
+        'runTotalKm',
+        'runningPercentage'
     ];
 
     /**
@@ -73,7 +76,7 @@ class User extends Authenticatable
         $query =  Run::where('user_id', $id);
         $runCounter = $query->count();
         $runTotalKm = $query->sum('distance');
-        $runningPercentage = $user->runGoa == 0 
+        $runningPercentage = $user->runGoal == 0
             ? 0
             : min(100, round($runTotalKm * 100 / $user->runGoal, 2));
 
