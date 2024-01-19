@@ -7,6 +7,8 @@ use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\ArticlesController;
 use App\Models\User;
+use App\Http\Middleware\ValidateAccessToken;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,7 +50,6 @@ Route::middleware(['access_token:'])->group(function () {
     Route::get('logout', [UserController::class, 'logout']);
 
     Route::apiResource('messages', MessagesController::class);
-    Route::get('messages-search/{page}/{friend_id?}', [MessagesController::class, 'search']);
     Route::get('messages-get/{friend_id}/{type?}/{last_id?}', [MessagesController::class, 'getMessages']);
     Route::put('messages-mark-read/{friend_id?}', [MessagesController::class, 'markAllRead']);
 });

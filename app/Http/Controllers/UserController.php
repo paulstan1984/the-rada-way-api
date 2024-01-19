@@ -102,7 +102,11 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         $user = $request->user;
-        $user->runs = $this->runsRepository->search($user->id)->get();
+        $user->runs = $this
+            ->runsRepository
+            ->search($user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json($user, 200);
     }

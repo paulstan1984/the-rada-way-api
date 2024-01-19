@@ -25,12 +25,13 @@ class MessagesRepository
     public function getMessages($user_id, $friend_id, $type, $lastId)
     {
         $query = $this->search($user_id, $friend_id);
+        $query->orderBy('id');
 
-        if ($type == 'newer' && !empty($lastId)) {
+        if ($type == 'newer' && !empty($lastId) && $lastId != 0) {
             $query = $query->where('id', '>', $lastId);
         }
 
-        if ($type == 'older' && !empty($lastId)) {
+        if ($type == 'older' && !empty($lastId) && $lastId != 0) {
             $query = $query->where('id', '<', $lastId);
         }
 

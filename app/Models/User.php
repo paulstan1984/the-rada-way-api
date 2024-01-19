@@ -32,7 +32,10 @@ class User extends Authenticatable
         'access_token',
         'remember_token',
         'running',
-        'base64_encoded_image'
+        'base64_encoded_image',
+        'runCounter',
+        'runTotalKm',
+        'runningPercentage'
     ];
 
     /**
@@ -61,5 +64,26 @@ class User extends Authenticatable
     public static function HashPass(string $pasword)
     {
         return md5($pasword . env('PASS_HASH'));
+    }
+
+    public static function update_run_stats($id)
+    {
+        $user = User::find($id);
+        if (empty($user)) {
+            return;
+        }
+
+        $query =  Run::where('user_id', $id);
+        $runCounter = $query->count();
+        $runTotalKm = $query->sum('distance');
+        $runningPercentage = $user->runGoal == 0
+            ? 0
+            : min(100, round($runTotalKm * 100 / $user->runGoal, 2));
+
+        $user->update([
+            'runCounter' => $runCounter, 
+            'runTotalKm' => $runTotalKm,
+            'runningPercentage' => round($runningPercentage, 2)
+        ]);
     }
 }

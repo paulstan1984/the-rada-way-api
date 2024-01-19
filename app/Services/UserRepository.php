@@ -109,4 +109,8 @@ class UserRepository
         }
         return $randomString;
     }
+
+    public function updateUserStats($userId) {
+        User::update_run_stats($userId);
+    }
 }
