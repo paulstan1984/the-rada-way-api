@@ -190,7 +190,12 @@ class UserController extends Controller
         }
 
         $query = $query->orderBy('name', 'asc');
+        $query = $query->distinct();
         $pagination = $this->paginationService->applyPagination($query, $page);
+
+        foreach($pagination['results'] as $user) {
+            $this->repository->updateUserStats($user->id);
+        }
 
         return response()->json($pagination, 200);
     }
