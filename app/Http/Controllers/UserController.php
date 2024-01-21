@@ -188,9 +188,11 @@ class UserController extends Controller
             $query = $query->orderByRaw('IFNULL(last_message_read, 1)');
             $query = $query->orderBy('last_message_date', 'desc');
         }
+        else {
+            $query = $query->orderBy('name', 'asc');
+            $query = $query->distinct();
+        }
 
-        $query = $query->orderBy('name', 'asc');
-        $query = $query->distinct();
         $pagination = $this->paginationService->applyPagination($query, $page);
 
         foreach($pagination['results'] as $user) {
