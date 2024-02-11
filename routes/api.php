@@ -38,6 +38,7 @@ Route::middleware(['access_token:'])->group(function () {
     Route::get('runs-search/{page}/{user_id?}', [RunsController::class, 'search']);
     Route::put('runs-running/{run_id}/{running?}', [RunsController::class, 'update_running']);
     Route::post('runs/sync', [RunsController::class, 'sync']);
+    Route::post('runs/{id}/upload-image', [RunsController::class, 'upload_image']);
 
     Route::get('locations-search/{page}/{run_id}', [LocationsController::class, 'search']);
     Route::post('locations/sync/{run_id?}', [LocationsController::class, 'sync']);

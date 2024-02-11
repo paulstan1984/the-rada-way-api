@@ -173,7 +173,6 @@ class UserController extends Controller
 
     public function search(Request $request, $page = 1, $keyword = null): JsonResponse
     {
-        //TODO: to be refactored
         $user_id = $request->user->id;
 
         $my_last_messages = null;

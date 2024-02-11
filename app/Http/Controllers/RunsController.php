@@ -209,4 +209,25 @@ class RunsController extends Controller
 
         return response()->json($item, 200);
     }
+
+
+    public function upload_image(int $Id, Request $request)
+    {
+        $run = Run::find($Id);
+
+        if ($run == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        if (!empty($request->image)) {
+            $extension = $request->image->extension();
+            $filename = time() . '.' . $extension;
+            $directory = 'public/images/' . $Id;
+
+            $request->image->storeAs($directory, $filename);
+            return response()->json('ok');
+        }
+
+        return response()->json(['error' => 'Not a valid file'], 400);
+    }
 }
